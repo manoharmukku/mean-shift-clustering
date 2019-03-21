@@ -4,8 +4,8 @@ Date: 21 Mar 2019
 Desc: Mean shift clustering algorithm
 """
 
-from sklearn.datasets.samples_generator import make_blobs
 import argparse
+from sklearn.datasets.samples_generator import make_blobs
 from mean_shift import *
 
 if __name__ == "__main__":
@@ -30,4 +30,4 @@ if __name__ == "__main__":
     # Find the final centroids
     centroids = ms.centroids
 
-    print (centroids)
+    # print (centroids)
