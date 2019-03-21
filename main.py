@@ -31,5 +31,7 @@ if __name__ == "__main__":
     ms.fit(X)
 
     # Find the final centroids
-    
+
     centroids = ms.centroids
+
+    print (centroids)
