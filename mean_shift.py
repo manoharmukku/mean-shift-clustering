@@ -10,13 +10,13 @@ from matplotlib import pyplot as plt
 from sklearn.datasets.samples_generator import make_blobs
 
 class MeanShift:
-    def __init__(self, radius=1):
+    def __init__(self, radius=2):
         self.radius = radius
 
     def fit(self, X):
         self.data = X.copy()
         self.centroids = X.copy()
-        self.centroids.sort(axis=0)
+        self.centroids = self.centroids[self.centroids[:,0].argsort()]
 
         fig = plt.figure()
 
@@ -47,34 +47,34 @@ class MeanShift:
             new_centroids = np.unique(new_centroids, axis=0)
 
             # Sort new_centroids
-            new_centroids.sort(axis=0)
+            new_centroids = new_centroids[new_centroids[:,0].argsort()]
 
             # If new_centroids is same as old centroids, saturation reached, stop
             if (np.array_equal(self.centroids, new_centroids)):
                 break
 
-            # Else, update the old centroids with the new ones
-            self.centroids = new_centroids.copy()
-
             # Plot the data
             plt.scatter(self.data[:,0], self.data[:,1], c='blue', marker='o')
             plt.scatter(self.centroids[:,0], self.centroids[:,1], c='red', marker='+')
-            plt.pause(1)
+            plt.pause(0.0000001)
             plt.close()
+
+            # Else, update the old centroids with the new ones
+            self.centroids = new_centroids.copy()
 
 
 if __name__ == "__main__":
 
     # Parse the command line arguments
     parser = argparse.ArgumentParser(description='Mean Shift Clustering')
-    parser.add_argument('--radius', '-r', type=int, default=1, help='Radius/Bandwidth')
+    parser.add_argument('--radius', '-r', type=float, default=2, help='Radius/Bandwidth')
     parser.add_argument('--n_samples', '-n', type=int, default=500, help="No. of random samples to generate")
     args = parser.parse_args()
 
     # Generate data around 4 centers using make_blobs
     centers = [[-2,-2], [2,2], [2,-2], [-2,2]]
     
-    X, _ = make_blobs(n_samples=args.n_samples, centers=centers, cluster_std=1)
+    X, _ = make_blobs(n_samples=args.n_samples, centers=centers, cluster_std=0.6)
 
     # Create mean_shift object
     ms = MeanShift(radius=args.radius)
@@ -84,6 +84,8 @@ if __name__ == "__main__":
 
     # Find the final centroids
     centroids = ms.centroids
+
+    print(centroids)
 
     # Plot the data
     plt.scatter(X[:,0], X[:,1], c='blue', marker='o')
