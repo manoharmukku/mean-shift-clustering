@@ -22,8 +22,8 @@ $ python mean_shift.py -r 2 -n 500
 ```
 
 Parameters:
-* -r => Radius. Usage (-r radius_value). Ex: -r 2
-* -n => No. of random samples to generate. Usage (-n n_samples). Ex: -n 1000
+* -r => Radius; Usage: -r radius_value; Ex: -r 2
+* -n => No. of random samples to generate; Usage: -n n_samples; Ex: -n 1000
 
 ###### References:
 * https://www.youtube.com/watch?list=PLQVvvaa0QuDfKTOs3Keq_kaG2P55YRn5v&time_continue=12&v=3ERPpzrDkVg
