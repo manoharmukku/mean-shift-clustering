@@ -26,4 +26,4 @@ Parameters:
 * -n => No. of random samples to generate; Usage: -n n_samples; Ex: -n 1000
 
 ###### References:
-* https://www.youtube.com/watch?list=PLQVvvaa0QuDfKTOs3Keq_kaG2P55YRn5v&time_continue=12&v=3ERPpzrDkVg
+* https://www.youtube.com/watch?v=3ERPpzrDkVg&t=6s
