@@ -56,7 +56,7 @@ class MeanShift:
             # Plot the data
             plt.scatter(self.data[:,0], self.data[:,1], c='blue', marker='o')
             plt.scatter(self.centroids[:,0], self.centroids[:,1], c='red', marker='+')
-            plt.pause(0.0000001)
+            plt.pause(1)
             plt.close()
 
             # Else, update the old centroids with the new ones
