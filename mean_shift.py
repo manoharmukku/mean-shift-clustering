@@ -19,6 +19,7 @@ class MeanShift:
         self.centroids = self.centroids[self.centroids[:,0].argsort()]
 
         fig = plt.figure()
+        # ax = fig.add_subplot(111)
 
         while True:
 
@@ -53,9 +54,18 @@ class MeanShift:
             if (np.array_equal(self.centroids, new_centroids)):
                 break
 
+            # patch = plt.Circle(center, radius, color='k', fill=False, clip_on=False)
+            # ax.add_patch(patch)
+
             # Plot the data
             plt.scatter(self.data[:,0], self.data[:,1], c='blue', marker='o')
+
             plt.scatter(self.centroids[:,0], self.centroids[:,1], c='red', marker='+')
+
+            # for center in self.centroids:
+            #     patch = plt.Circle(center, self.radius, color='k', fill=False, clip_on=False)
+            #     ax.add_patch(patch)
+
             plt.pause(1)
             plt.close()
 
