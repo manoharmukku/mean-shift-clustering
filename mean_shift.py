@@ -20,7 +20,7 @@ class MeanShift:
 
         fig = plt.figure()
         
-        max_iterations = 6
+        max_iterations = 5
         iteration = 1
 
         # Iterate over all points individually
@@ -49,7 +49,7 @@ class MeanShift:
                     plt.scatter(centroid[0], centroid[1], c='red', marker='+')
 
                     # Plot a circle around the centroid
-                    circle = plt.Circle(centroid, self.radius, color='r', fill=False, clip_on=False)
+                    circle = plt.Circle(centroid, self.radius, color='r', fill=False, clip_on=True)
                     plt.gca().add_artist(circle)
 
                     # Wait for a while and close the plot
