@@ -50,7 +50,7 @@ class MeanShift:
 
                     # Plot a circle around the centroid
                     circle = plt.Circle(centroid, self.radius, color='r', fill=False, clip_on=False)
-                    plt.gcf().gca().add_artist(circle)
+                    plt.gca().add_artist(circle)
 
                     # Wait for a while and close the plot
                     plt.pause(1)
@@ -95,10 +95,15 @@ if __name__ == "__main__":
     # Fit the data X
     ms.fit(X)
 
+    # Get the final centroids
     centroids = ms.centroids
 
     print (centroids)
 
+    # Plot the data and centroids
     plt.scatter(X[:,0], X[:,1], c='blue', marker='o')
     plt.scatter(centroids[:,0], centroids[:,1], c='red', marker='+')
+    for center in centroids:
+        circle = plt.Circle(center, args.radius, color='r', fill=False, clip_on=True)
+        plt.gca().add_artist(circle)
     plt.show()
