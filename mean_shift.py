@@ -1,7 +1,7 @@
 """
 Author: Manohar Mukku
-Date: 21 Mar 2019
-Desc: Mean shift clustering algorithm
+Date: 6 Apr 2019
+Desc: Mean Shift Algorithm Implementation
 """
 
 import argparse
@@ -9,68 +9,64 @@ import numpy as np
 from matplotlib import pyplot as plt
 from sklearn.datasets.samples_generator import make_blobs
 
+
 class MeanShift:
     def __init__(self, radius=2):
         self.radius = radius
 
     def fit(self, X):
-        self.data = X.copy()
-        self.centroids = X.copy()
-        self.centroids = self.centroids[self.centroids[:,0].argsort()]
+        self.data = X
+        self.centroids = []
 
         fig = plt.figure()
-        # ax = fig.add_subplot(111)
 
-        while True:
+        # Iterate over all points individually
+        for point in self.data:
 
-            # List which stores all the new centroids formed
-            new_centroids = []
+            # Initially, point itself is the centroid
+            centroid = point
 
-            # Iterate over all centroids individually
-            for centroid in self.centroids:
+            # Perform Mean Shift on this point until it converges
+            while True:
 
                 # List which stores all the points within the radius of current 'centroid'
                 points_within_radius = []
 
                 # Find all the points within the radius of 'centroid'
-                for point in self.data:
-                    if (np.linalg.norm(point-centroid) <= self.radius):
-                        points_within_radius.append(point)
+                for feature in self.data:
+                    if (np.linalg.norm(feature-centroid) <= self.radius):
+                        points_within_radius.append(feature)
 
+                # Plot the data
+                plt.scatter(self.data[:,0], self.data[:,1], c='blue', marker='o')
+
+                # Plot the centroid
+                plt.scatter(centroid[0], centroid[1], c='red', marker='+')
+
+                # Plot a circle around the centroid
+                circle = plt.Circle(centroid, self.radius, color='k', fill=False, clip_on=False)
+                plt.gcf().gca().add_artist(circle)
+
+                # Wait for a while and close the plot
+                plt.pause(1)
+                plt.close()
+
+                # Save old centroid before it is updated
+                old_centroid = centroid
+
+                # Update centroid: New centroid is the mean of all the points within radius
                 if (len(points_within_radius) > 0):
-                    points_within_radius = np.array(points_within_radius)
+                    centroid = np.mean(points_within_radius, axis=0)
 
-                    new_centroid = np.mean(points_within_radius, axis=0)
+                # If centroid doesn't change, convergence reached, break
+                if (np.array_equal(old_centroid, centroid)):
+                    break
 
-                    new_centroids.append(new_centroid)
+            # Add the new found centroid to global centroids list
+            self.centroids.append(centroid)
 
-            # Remove duplicates
-            new_centroids = np.unique(new_centroids, axis=0)
-
-            # Sort new_centroids
-            new_centroids = new_centroids[new_centroids[:,0].argsort()]
-
-            # If new_centroids is same as old centroids, saturation reached, stop
-            if (np.array_equal(self.centroids, new_centroids)):
-                break
-
-            # patch = plt.Circle(center, radius, color='k', fill=False, clip_on=False)
-            # ax.add_patch(patch)
-
-            # Plot the data
-            plt.scatter(self.data[:,0], self.data[:,1], c='blue', marker='o')
-
-            plt.scatter(self.centroids[:,0], self.centroids[:,1], c='red', marker='+')
-
-            # for center in self.centroids:
-            #     patch = plt.Circle(center, self.radius, color='k', fill=False, clip_on=False)
-            #     ax.add_patch(patch)
-
-            plt.pause(1)
-            plt.close()
-
-            # Else, update the old centroids with the new ones
-            self.centroids = new_centroids.copy()
+        # Remove duplicates from found centroids
+        self.centroids = np.unique(self.centroids, axis=0)
 
 
 if __name__ == "__main__":
@@ -92,12 +88,6 @@ if __name__ == "__main__":
     # Fit the data X
     ms.fit(X)
 
-    # Find the final centroids
     centroids = ms.centroids
 
-    print(centroids)
-
-    # Plot the data
-    plt.scatter(X[:,0], X[:,1], c='blue', marker='o')
-    plt.scatter(centroids[:,0], centroids[:,1], c='red', marker='+')
-    plt.show()
+    print (centroids)
