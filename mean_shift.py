@@ -20,8 +20,8 @@ class MeanShift:
 
         fig = plt.figure()
         
-        max_iterations = 5
-        iteration = 1
+        max_plot_count = 5
+        plot_count = 1
 
         # Iterate over all points individually
         for point in self.data:
@@ -41,7 +41,7 @@ class MeanShift:
                         points_within_radius.append(feature)
 
                 # Plot only for some points
-                if (iteration < max_iterations):
+                if (plot_count < max_plot_count):
                     # Plot the data
                     plt.scatter(self.data[:,0], self.data[:,1], c='blue', marker='o')
 
@@ -67,7 +67,7 @@ class MeanShift:
                 if (np.array_equal(old_centroid, centroid)):
                     break
 
-            iteration += 1
+            plot_count += 1
 
             # Add the new found centroid to global centroids list
             self.centroids.append(centroid)
