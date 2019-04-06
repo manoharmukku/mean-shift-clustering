@@ -19,6 +19,9 @@ class MeanShift:
         self.centroids = []
 
         fig = plt.figure()
+        
+        max_iterations = 6
+        iteration = 1
 
         # Iterate over all points individually
         for point in self.data:
@@ -37,19 +40,21 @@ class MeanShift:
                     if (np.linalg.norm(feature-centroid) <= self.radius):
                         points_within_radius.append(feature)
 
-                # Plot the data
-                plt.scatter(self.data[:,0], self.data[:,1], c='blue', marker='o')
+                # Plot only for some points
+                if (iteration < max_iterations):
+                    # Plot the data
+                    plt.scatter(self.data[:,0], self.data[:,1], c='blue', marker='o')
 
-                # Plot the centroid
-                plt.scatter(centroid[0], centroid[1], c='red', marker='+')
+                    # Plot the centroid
+                    plt.scatter(centroid[0], centroid[1], c='red', marker='+')
 
-                # Plot a circle around the centroid
-                circle = plt.Circle(centroid, self.radius, color='k', fill=False, clip_on=False)
-                plt.gcf().gca().add_artist(circle)
+                    # Plot a circle around the centroid
+                    circle = plt.Circle(centroid, self.radius, color='r', fill=False, clip_on=False)
+                    plt.gcf().gca().add_artist(circle)
 
-                # Wait for a while and close the plot
-                plt.pause(1)
-                plt.close()
+                    # Wait for a while and close the plot
+                    plt.pause(1)
+                    plt.close()
 
                 # Save old centroid before it is updated
                 old_centroid = centroid
@@ -61,6 +66,8 @@ class MeanShift:
                 # If centroid doesn't change, convergence reached, break
                 if (np.array_equal(old_centroid, centroid)):
                     break
+
+            iteration += 1
 
             # Add the new found centroid to global centroids list
             self.centroids.append(centroid)
@@ -91,3 +98,7 @@ if __name__ == "__main__":
     centroids = ms.centroids
 
     print (centroids)
+
+    plt.scatter(X[:,0], X[:,1], c='blue', marker='o')
+    plt.scatter(centroids[:,0], centroids[:,1], c='red', marker='+')
+    plt.show()
