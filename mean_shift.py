@@ -20,7 +20,7 @@ class MeanShift:
 
         fig = plt.figure()
         
-        max_plot_count = 5
+        max_plot_count = 4
         plot_count = 1
 
         # Iterate over all points individually
